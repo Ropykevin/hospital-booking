@@ -17,6 +17,8 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'bkiiru45@gmail.com'
 app.config['MAIL_PASSWORD'] = 'jblq hvfx bawg ygcp'
 
+
+
 mail = Mail(app)
 
 # Database connection
@@ -78,8 +80,8 @@ def book_appointment():
                 session.add(appointment)
                 session.commit()
 
-                # Send email notification to the patient
-                if send_email_to_patient(patient_name, patient_email, doctor.name, appointment_datetime):
+                # Send email notifications to the patient and doctor
+                if send_email_to_patient(patient_name, patient_email, doctor.name, appointment_datetime) and send_email_to_doctor(patient_name, doctor.email, appointment_datetime, doctor.name):
                     flash('Appointment successfully booked!', 'success')
                     return redirect(url_for('confirmation'))
                 else:
