@@ -12,30 +12,26 @@ Register
                 <div class="card-header">Register</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ url_for('register') }}">
-                        {{ form.hidden_tag() }}
+                    <form method="POST" action="/register">
 
                         <div class="form-group">
                             <label for="name">Name</label>
-                            {{ form.name(class="form-control", id="name", placeholder="Enter your name", required=true)
-                            }}
+                            <input type="text" name="name" required>
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            {{ form.email(class="form-control", id="email", placeholder="Enter your email",
-                            required=true) }}
+                            <input type="email" name="email" required>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password</label>
-                            {{ form.password(class="form-control", id="password", placeholder="Enter your password",
-                            required=true) }}
+                            <input type="password" name="password" required>
                         </div>
 
                         <div class="form-group">
                             <label for="confirm_password">Confirm Password</label>
-                            {{ form.confirm_password(class="form-control", id="confirm_password", placeholder="Confirm your password", required=true) }}
+                            <input type="password" name="confirm_password" required>
                         </div>
 
                         <div class="form-group">

@@ -1,3 +1,5 @@
+from flask_login import LoginManager
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -6,8 +8,15 @@ from sqlalchemy.ext.declarative import declarative_base
 
 db = SQLAlchemy()
 
-Base = declarative_base()
+# Base = declarative_base()
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'your_secret_key_here'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Kevin254!@localhost:5432/doctors_booking'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+login_manager = LoginManager(app)
 class Doctor(db.Model):
     __tablename__ = 'doctors'
 
@@ -42,17 +51,10 @@ class Appointment(db.Model):
     doctor = db.relationship('Doctor', back_populates='appointments')
     patient = db.relationship('Patient', back_populates='appointments')
 
-
-class User(UserMixin, db.Model):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
